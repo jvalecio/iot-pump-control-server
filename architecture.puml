@@ -1,0 +1,28 @@
+@startuml
+participant "Cliente" as C
+participant "ESP32" as ESP
+participant "Servidor" as S
+participant "API Mercado Pago" as MP
+
+activate C
+C --> ESP: Solicitação de liberação da bomba via display
+activate ESP
+ESP --> S: Solicitação do QR CODE para pagamento
+activate S
+activate MP
+S --> MP: Request - Geração do QRCode
+MP --> S: Response
+S --> ESP: QRCode base64
+deactivate MP
+deactivate S
+ESP --> ESP: Mostra o QRCode na tela
+
+activate MP
+C --> MP: Pagamento
+activate S
+MP --> S: WebHook - Aprovação do pagamento
+deactivate MP
+S --> ESP: Aprovação do pagamento
+ESP --> C: Liberação da motobomba
+deactivate S
+@enduml

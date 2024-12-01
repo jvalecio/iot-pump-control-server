@@ -1,0 +1,13 @@
+[Unit]
+Description=iot-pump-server
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=on-failure
+RestartSec=10s
+WorkingDirectory=/home/ec2-user/iot-pump/
+ExecStart=/home/ec2-user/iot-pump/venv/bin/python iot-pump-control-server.py
+
+[Install]
+WantedBy=multi-user.target
